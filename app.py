@@ -58,9 +58,12 @@ def AboutToday():
 
 @app.route("/v1/sentence",methods = ['GET'])
 def OneSentence():
-    while req.json()["from_who"] == None:
-        req = requests.get("https://v1.hitokoto.cn")
-    return {"status": "SUCCESS","message": "成功","data": {"sentence": req.json()["hitokoto"],"from_who": req.json()["from_who"]}}, 200
+    req = requests.get("https://v1.hitokoto.cn")
+    if req.json()["from_who"] == None:
+        from_who = "匿名"
+    else:
+        from_who = req.json()["from_who"]
+    return {"status": "SUCCESS","message": "成功","data": {"sentence": req.json()["hitokoto"],"from_who": from_who}}, 200
 
 if __name__ == '__main__':
     app.run()
