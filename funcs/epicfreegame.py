@@ -4,7 +4,7 @@ import requests
 def GetEpicFreeGame():
     req = requests.get("https://uapis.cn/api/v1/game/epic-free")
     if req.status_code != 200:
-        return {"status": "ERR_EPIC_API_ERROR","message": "游戏查询API异常","data": None}
+        return {"status": "ERR_EPIC_API_ERROR","message": "游戏查询API异常","data": req.json()}
     sdata = req.json()["data"]
     tgdata = []
     for i in sdata:
