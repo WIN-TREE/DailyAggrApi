@@ -62,4 +62,4 @@ def OneSentence():
     return {"status": "SUCCESS","message": "成功","data": {"sentence": req.json()["hitokoto"],"from_who": req.json()["from_who"]}}, 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
