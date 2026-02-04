@@ -1,6 +1,6 @@
 import requests
+from dotenv import load_dotenv
+import os
 
-req=requests.get("https://uapis.cn/api/v1/network/ipinfo",params={"ip": "120.229.67.75"})
-jsonres = req.json()
-region = jsonres["region"]
-print(region)
+load_dotenv()
+print(os.environ.get("1"))
