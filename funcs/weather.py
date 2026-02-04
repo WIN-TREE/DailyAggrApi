@@ -13,6 +13,9 @@ def GetWeather(ip : str,get_indices : bool = False): #通过IP获取近4日天�
     if req.status_code != 200:
         return {"status": "ERR_WEATHER_API_ERROR","message": "天气API异常","data": None}
     jsonres = req.json()
+    return {"status": "SUCCESS","message": "成功","data": jsonres}
+
+def AISug(jsonres):
     load_dotenv()
     aisug = None
     if os.environ.get("GLM_API_KEY") != None:
@@ -37,5 +40,4 @@ def GetWeather(ip : str,get_indices : bool = False): #通过IP获取近4日天�
         }
         req = requests.post("https://open.bigmodel.cn/api/paas/v4/chat/completions",json=data,headers=header)
         aisug = req.json()["choices"][0]["message"]["content"]
-    jsonres["ai_suggestion"] = aisug
-    return {"status": "SUCCESS","message": "成功","data": jsonres}
+    return aisug

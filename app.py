@@ -65,5 +65,10 @@ def OneSentence():
         from_who = req.json()["from_who"]
     return {"status": "SUCCESS","message": "成功","data": {"sentence": req.json()["hitokoto"],"from_who": from_who}}, 200
 
+@app.route("/v1/aisug",methods = ['POST'])
+def AiSuggest():
+    sug = weather.AISug(request.json["data"])
+    return {"status": "SUCCESS","message": "成功","data": {"content": sug}}, 200
+
 if __name__ == '__main__':
     app.run()
