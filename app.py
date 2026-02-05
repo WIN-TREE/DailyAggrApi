@@ -6,10 +6,15 @@ from datetime import datetime
 import random
 from lunar_python import Lunar
 import requests
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
 
 app = Flask(__name__)
+limiter = Limiter(get_remote_address,default_limits=["30/minute"])
+limiter.init_app(app)
 
 @app.route("/v1")
+@limiter.exempt
 def index():
     return {"status": "SUCCESS","message": "服务正常运行","data": None}, 200
 
@@ -66,6 +71,7 @@ def OneSentence():
     return {"status": "SUCCESS","message": "成功","data": {"sentence": req.json()["hitokoto"],"from_who": from_who}}, 200
 
 @app.route("/v1/aisug",methods = ['POST'])
+@limiter.limit("5/minute")
 def AiSuggest():
     sug = weather.AISug(request.json["data"])
     return {"status": "SUCCESS","message": "成功","data": {"content": sug}}, 200
